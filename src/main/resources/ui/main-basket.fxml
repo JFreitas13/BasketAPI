@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/19">
+  <content>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="44.0" prefWidth="601.0">
+         <children>
+            <VBox prefHeight="359.0" prefWidth="600.0">
+               <children>
+                  <HBox prefHeight="72.0" prefWidth="600.0">
+                     <children>
+                        <Button fx:id="btShowTeams" mnemonicParsing="false" onAction="#showAllTeams" text="Ver equipos" />
+                     </children>
+                  </HBox>
+                  <TextArea fx:id="teamsArea" prefHeight="291.0" prefWidth="600.0" />
+               </children>
+            </VBox>
+         </children></AnchorPane>
+  </content>
+</ScrollPane>
