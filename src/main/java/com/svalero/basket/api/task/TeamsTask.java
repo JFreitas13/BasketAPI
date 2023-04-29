@@ -8,7 +8,7 @@ import javafx.concurrent.Task;
 
 public class TeamsTask extends Task<Integer> {
 
-    private Consumer<Team> user;
+    public Consumer<Team> user;
 
     public TeamsTask(Consumer<Team> user) {
         this.user = user;
