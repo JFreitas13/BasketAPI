@@ -1,5 +1,12 @@
 package com.svalero.basket.api.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Player {
 
     int  id;
@@ -7,7 +14,7 @@ public class Player {
     String last_name;
     String position;
     int height_feet;
-    String height_inches;
-    String weight_pounds;
+    int height_inches;
+    int weight_pounds;
     Team team;
 }
