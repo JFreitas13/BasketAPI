@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Meta {
 
-    private int totalPages;
-    private int currentPage;
-    private int nextPage;
-    private int perPage;
-    private int totalCount;
+    private int total_pages;
+    private int current_page;
+    private int next_page;
+    private int per_age;
+    private int total_count;
 
 }

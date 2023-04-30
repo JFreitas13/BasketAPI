@@ -1,6 +1,7 @@
 package com.svalero.basket.api.service;
 
-import com.svalero.basket.api.model.Player;
+import com.svalero.basket.api.model.DataPlayer;
+import com.svalero.basket.api.model.DataTeam;
 import com.svalero.basket.api.model.Team;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -39,14 +40,12 @@ public class BasketService {
         this.basketAPI = retrofit.create(BasketAPI.class);
     }
 
-    public Observable<Team> getTeams() {
-        return this.basketAPI.getInformationTeam().flatMapIterable(data -> data)
-                .map(data -> data.getTeams()).flatMapIterable(teams -> teams);
+    public Observable<DataTeam> getTeams() {
+        return this.basketAPI.getInformationTeam();
     }
 
-    public Observable<Player> getPlayers() {
-        return this.basketAPI.getInformacionPlayer().flatMapIterable(data -> data)
-                .map(data -> data.getPlayers()).flatMapIterable(players -> players);
+    public Observable<DataPlayer> getPlayers() {
+        return this.basketAPI.getInformacionPlayer();
     }
 
 }

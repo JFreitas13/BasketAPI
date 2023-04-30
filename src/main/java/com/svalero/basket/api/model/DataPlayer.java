@@ -8,11 +8,8 @@ import java.util.List;
 @lombok.Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Data {
+public class DataPlayer {
 
-    private List<Player> players;
-    private List<Team> teams;
+    private List<Player> data;
     private Meta meta;
-
-
 }

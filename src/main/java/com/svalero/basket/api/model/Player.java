@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Player {
 
-    int  id;
-    String first_name;
-    String last_name;
-    String position;
-    int height_feet;
-    int height_inches;
-    int weight_pounds;
-    Team team;
+    private int  id;
+    private String first_name;
+    private String last_name;
+    private String position;
+    private int height_feet;
+    private int height_inches;
+    private int weight_pounds;
+    private Team team;
 }

@@ -1,5 +1,7 @@
 package com.svalero.basket.api.controller;
 
+import com.svalero.basket.api.model.DataPlayer;
+import com.svalero.basket.api.model.DataTeam;
 import com.svalero.basket.api.model.Player;
 import com.svalero.basket.api.model.Team;
 import com.svalero.basket.api.task.PlayersTask;
@@ -33,15 +35,15 @@ public class AppController {
       this.teams = new ArrayList<String>();
         teamsArea.setText("");
 
-        Consumer<Team> user = (team -> {
+        Consumer<DataTeam> userTeam = (dataTeam -> {
             String previousText;
             previousText = teamsArea.getText() + "\n";
             //Thread.sleep(100);
-            this.teamsArea.setText(teamsArea.getText() + "\n" + team.getId() + "\n" + team.getAbbreviation() + "\n" + team.getCity() + "\n" + team.getConference() + "\n" + team.getDivision() + "\n" + team.getFull_name() + "\n" + team.getName());
-            this.teams.add(team.getId() + team.getAbbreviation() + team.getCity() + team.getConference() + team.getDivision() + team.getFull_name() + team.getName());
+            this.teamsArea.setText(teamsArea.getText() + "\n" + dataTeam.getData());
+            this.teams.add(String.valueOf(dataTeam.getData()));
         });
 
-        teamsTask = new TeamsTask(user);
+        teamsTask = new TeamsTask(userTeam);
         new Thread(teamsTask).start();
     }
 
@@ -50,14 +52,14 @@ public class AppController {
         this.players = new ArrayList<String>();
         playersArea.setText("");
 
-        Consumer<Player> user = (player -> {
+        Consumer<DataPlayer> userPlayer = (dataPlayer -> {
             String previousText;
             previousText = playersArea.getText() + "\n";
-            this.playersArea.setText(playersArea.getText() + "\n" + player.getId() + "\n" + player.getFirst_name() + "\n" + player.getLast_name() + "\n" + player.getTeam());
-            this.players.add(player.getId() + player.getTeam().getName());
+            this.playersArea.setText(playersArea.getText() + "\n" + dataPlayer.getData() /*+ "\n" + player.getFirst_name() + "\n" + player.getLast_name() + "\n" + player.getTeam()*/);
+            this.players.add(String.valueOf(dataPlayer.getData()));
         });
 
-        playersTask = new PlayersTask(user);
+        playersTask = new PlayersTask(userPlayer);
         new Thread(playersTask).start();
     }
 }
