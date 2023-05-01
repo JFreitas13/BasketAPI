@@ -12,6 +12,4 @@ public class DataTeam {
 
     private List<Team> data;
     private Meta meta;
-
-
 }
