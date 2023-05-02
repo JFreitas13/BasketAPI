@@ -88,30 +88,12 @@ public class AppController {
 
     @FXML
     public void deleteTeam(ActionEvent event) {
-//        this.teams = new ArrayList<String>();
-//
-//        String id = tfIdTeam.getId();
-//        tfIdTeam.clear();;
-//        tfIdTeam.requestFocus();
-//
-//        for(String team: this.teams) {
-//            this.resultsTeams.add(team.getName());
-//        }
+        int teamIndex = Integer.parseInt(tfIdTeam.getText());
 
-//        this.players = new ArrayList<String>();
-//
-//        String id = tfIdTeam.getId();
-//        tfIdTeam.clear();;
-//        tfIdTeam.requestFocus();
-//        this.playersArea.setText("");
-//
-//        for (String player : this.players) {
-//            this.players.add(playersArea.getText() + players);
-        int playerId = Integer.parseInt(tfIdTeam.getText());
-        this.players.remove(playerId);
-        this.playersArea.setText("");
-        for (String player : this.players) {
-           this.playersArea.setText(playersArea.getText() + "\n" + player);
+        if (teamIndex < this.resultsTeams.size()) { // Comprueba que el índice sea válido
+            this.resultsTeams.remove(teamIndex); // Elimina el nombre del equipo de la lista de resultados
+            this.listTeams.setItems(FXCollections.observableArrayList((this.resultsTeams))); // Actualiza la ListView);
+
         }
         }
 
@@ -123,8 +105,11 @@ public class AppController {
             FileWriter writer = new FileWriter(outputFile);
             CSVWriter csvWriter = new CSVWriter(writer);
             List<String[]> file = new ArrayList<String[]>();
-            for (String team : this.teams) {
-                file.add(new String[] {team});
+//            for (String team : this.resultsTeams) {
+//                file.add(new String[] {team});
+//            }
+            for (Object team : this.resultsTeams) {
+                file.add(new String[] {team.toString()});
             }
             csvWriter.writeAll(file);
             csvWriter.close();
