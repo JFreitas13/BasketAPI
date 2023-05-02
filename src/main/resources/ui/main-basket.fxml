@@ -1,43 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="467.0" prefWidth="709.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
   <content>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="44.0" prefWidth="601.0">
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="44.0" prefWidth="709.0">
          <children>
-            <VBox prefHeight="359.0" prefWidth="600.0">
+            <VBox prefHeight="359.0" prefWidth="709.0">
                <children>
                   <HBox prefHeight="69.0" prefWidth="284.0">
                      <children>
-                        <Button fx:id="btShowTeams" mnemonicParsing="false" onAction="#showAllTeams" text="Ver equipos" />
-                        <Button fx:id="btShowPlayers" mnemonicParsing="false" onAction="#showAllPlayers" text="Ver Jugadores" />
+                        <Button fx:id="btShowTeams" mnemonicParsing="false" onAction="#showAllTeams" text="Ver equipos">
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <HBox.margin>
+                              <Insets left="10.0" top="5.0" />
+                           </HBox.margin></Button>
+                        <Button fx:id="btShowPlayers" mnemonicParsing="false" onAction="#showAllPlayers" text="Ver Jugadores">
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <HBox.margin>
+                              <Insets left="10.0" top="5.0" />
+                           </HBox.margin></Button>
+                        <Button fx:id="btDeleteTeam" mnemonicParsing="false" onAction="#deleteTeam" text="Eliminar Equipo">
+                           <HBox.margin>
+                              <Insets left="10.0" top="5.0" />
+                           </HBox.margin>
+                        </Button>
+                        <TextField fx:id="tfIdTeam" promptText="ID del equipo a eliminar">
+                           <HBox.margin>
+                              <Insets top="5.0" />
+                           </HBox.margin>
+                        </TextField>
                      </children>
                   </HBox>
-                  <TabPane prefHeight="301.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
+                  <HBox prefHeight="97.0" prefWidth="709.0">
+                     <children>
+                        <Button fx:id="btExport" mnemonicParsing="false" onAction="#exportarCSV" text="Exportar Equipos csv">
+                           <HBox.margin>
+                              <Insets left="10.0" top="10.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <TabPane prefHeight="331.0" prefWidth="709.0" tabClosingPolicy="UNAVAILABLE">
                     <tabs>
                       <Tab text="Equipos">
                         <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="296.0" prefWidth="600.0">
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="309.0" prefWidth="709.0">
                                  <children>
-                                    <ListView fx:id="listTeams" prefHeight="269.0" prefWidth="600.0" />
+                                    <ListView fx:id="listTeams" layoutY="2.0" prefHeight="341.0" prefWidth="710.0" />
                                  </children>
                               </AnchorPane>
                         </content>
                       </Tab>
                       <Tab text="Jugadores">
                         <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="508.0" prefWidth="600.0">
                                  <children>
-                                    <TextArea fx:id="playersArea" prefHeight="287.0" prefWidth="600.0" />
+                                    <TextArea fx:id="playersArea" prefHeight="257.0" prefWidth="709.0" />
                                  </children>
                               </AnchorPane>
                         </content>
