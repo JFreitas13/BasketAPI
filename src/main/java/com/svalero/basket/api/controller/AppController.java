@@ -12,10 +12,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -28,9 +25,10 @@ public class AppController {
 
     public Button btShowTeams;
     public Button btShowPlayers;
-    public Button btDeleteTeam;
+    public Button btDeletePlayer;
     public Button btExport;
-    public TextField tfIdTeam;
+    public ProgressBar pbProgress;
+    public TextField tfInputPlayer;
     //public TextArea teamsArea;
     public TextArea playersArea;
 
@@ -40,7 +38,7 @@ public class AppController {
     private PlayersTask playersTask;
 
     public List<String> teams;
-    public List<String> players;
+    public List<Player> players;
 
     public ObservableList<Object> resultsTeams;
 
@@ -50,19 +48,18 @@ public class AppController {
         resultsTeams = FXCollections.observableArrayList();
         this.listTeams.setItems(this.resultsTeams);
     }
+
     @FXML
     public void showAllTeams(ActionEvent event) {
-      this.teams = new ArrayList<String>();
+
+        this.teams = new ArrayList<String>();
 
         Consumer<DataTeam> userTeam = (dataTeam -> {
             for (Team team : dataTeam.getData()) {
-                this.resultsTeams.add(team.getName());
+                this.resultsTeams.add("Nombre: " + team.getName() + " Abrev: " + team.getAbbreviation() + " Conference: " + team.getConference() + " Division: " +
+                        team.getDivision() + " Nombre completo: " + team.getFull_name() + " Nombre: " + team.getName());
+                this.pbProgress.setVisible(false);
             }
-            //String previousText;
-            //previousText = teamsArea.getText() + "\n";
-            //Thread.sleep(100);
-            //this.teamsArea.setText(teamsArea.getText() + "\n" + dataTeam.getData());
-            //this.teams.add(String.valueOf(dataTeam.getData()));
         });
 
         teamsTask = new TeamsTask(userTeam);
@@ -71,36 +68,36 @@ public class AppController {
 
     @FXML
     public void showAllPlayers(ActionEvent event) {
-        this.players = new ArrayList<String>();
+        this.players = new ArrayList<>();
         playersArea.setText("");
 
         Consumer<DataPlayer> userPlayer = (dataPlayer -> {
             String previousText;
             previousText = playersArea.getText() + "\n";
-                for (Player player : dataPlayer.getData()) {
-                    playersArea.appendText(player.getId() + " " + player.getFirst_name() + " " + player.getLast_name() + " " + player.getPosition() + " " + player.getTeam() + "\n\n");
-                    this.players.add(playersArea.getText() + "\n" + dataPlayer.getData()+ "\n" + player.getId() + "\n\n" + player.getFirst_name() + "\n" + player.getLast_name() + "\n" + player.getPosition() + "\n" + player.getTeam());
-                }
+            for (Player player : dataPlayer.getData()) {
+                playersArea.appendText("ID: " + player.getId() + " Nombre: " + player.getFirst_name() + " Apellido: " + player.getLast_name() + " Posicion: " + player.getPosition() + "Equipo: " + player.getTeam() + "\n\n");
+                this.players.add(player);
+            }
         });
         playersTask = new PlayersTask(userPlayer);
         new Thread(playersTask).start();
     }
 
     @FXML
-    public void deleteTeam(ActionEvent event) {
-        int teamIndex = Integer.parseInt(tfIdTeam.getText());
-
-        if (teamIndex < this.resultsTeams.size()) { // Comprueba que el índice sea válido
-            this.resultsTeams.remove(teamIndex); // Elimina el nombre del equipo de la lista de resultados
-            this.listTeams.setItems(FXCollections.observableArrayList((this.resultsTeams))); // Actualiza la ListView);
-
+    public void deletePlayer(ActionEvent event) {
+        int playerIndex = Integer.parseInt(tfInputPlayer.getText());
+        this.players.remove(playerIndex);
+        this.playersArea.setText("");
+        for (Player player : this.players) {
+            this.playersArea.appendText(player.getId() + " " + player.getFirst_name() + " " + player.getLast_name() + " " + player.getPosition() + " " + player.getTeam() + "\n\n");
         }
-        }
+
+    }
 
     @FXML
     public void exportarCSV(ActionEvent event) {
         File outputFile = new File(System.getProperty("user.dir") + System.getProperty("file.separator")
-                + "equipos.csv");
+                + "equipos.csv" + "1");
         try {
             FileWriter writer = new FileWriter(outputFile);
             CSVWriter csvWriter = new CSVWriter(writer);
@@ -109,15 +106,15 @@ public class AppController {
 //                file.add(new String[] {team});
 //            }
             for (Object team : this.resultsTeams) {
-                file.add(new String[] {team.toString()});
+                file.add(new String[]{team.toString()});
             }
             csvWriter.writeAll(file);
             csvWriter.close();
-            } catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    }
+}
 
 
 
