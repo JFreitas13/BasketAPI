@@ -2,7 +2,6 @@ package com.svalero.basket.api.service;
 
 import com.svalero.basket.api.model.DataPlayer;
 import com.svalero.basket.api.model.DataTeam;
-import com.svalero.basket.api.model.Team;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.reactivex.Observable;
@@ -11,8 +10,6 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-import java.util.List;
 
 public class BasketService {
 

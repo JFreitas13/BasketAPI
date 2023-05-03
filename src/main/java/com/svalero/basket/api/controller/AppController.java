@@ -32,19 +32,15 @@ public class AppController {
     public TextField tfInputPlayer;
     //public TextArea teamsArea;
     public TextArea playersArea;
-
     public ListView listTeams;
     public ProgressBar pbProgress;
-
+    public List<String> teams;
+    public List<Player> players;
+    public ObservableList<Object> resultsTeams;
     private TeamsTask teamsTask;
     private PlayersTask playersTask;
 
-    public List<String> teams;
-    public List<Player> players;
-
-    public ObservableList<Object> resultsTeams;
-
-
+    //inicializar para usar la LisView de Teams
     @FXML
     public void initialize() {
         pbProgress.setProgress(0.0);
@@ -52,13 +48,13 @@ public class AppController {
         this.listTeams.setItems(this.resultsTeams); //listTeams se subscribe al ObervableList
     }
 
+    //Evento que se ejecuta al presionar el boton de ver equipos
     @FXML
     public void showAllTeams(ActionEvent event) {
-
         this.teams = new ArrayList<String>();
 
         Consumer<DataTeam> userTeam = (dataTeam -> {
-            Platform.runLater(() -> { // actualice la barra de progreso en el hilo de JavaFX
+            Platform.runLater(() -> {
                 pbProgress.setProgress(0.5);
             });
 
@@ -66,7 +62,7 @@ public class AppController {
                 this.resultsTeams.add("Nombre: " + team.getName() + " Abrev: " + team.getAbbreviation() + " Conference: " + team.getConference() + " Division: " +
                         team.getDivision() + " Nombre completo: " + team.getFull_name());
             }
-            Platform.runLater(() -> { // actualice la barra de progreso en el hilo de JavaFX
+            Platform.runLater(() -> {
                 pbProgress.setProgress(1.0);
             });
         });
@@ -75,15 +71,17 @@ public class AppController {
         new Thread(teamsTask).start();
     }
 
+    //Evento que se ejecuta al presionar el boton de ver jugadores
     @FXML
     public void showAllPlayers(ActionEvent event) {
         this.players = new ArrayList<>();
         playersArea.setText("");
 
         Consumer<DataPlayer> userPlayer = (dataPlayer -> {
-            Platform.runLater(() -> { // actualice la barra de progreso en el hilo de JavaFX
+            Platform.runLater(() -> {
                 pbProgress.setProgress(0.5);
             });
+
             String previousText;
             previousText = playersArea.getText() + "\n";
             for (Player player : dataPlayer.getData()) {
@@ -100,6 +98,7 @@ public class AppController {
         new Thread(playersTask).start();
     }
 
+    //opcion de borrar jugador usando el array almacenado y no la API
     @FXML
     public void deletePlayer(ActionEvent event) {
         int playerIndex = Integer.parseInt(tfInputPlayer.getText());
@@ -108,20 +107,18 @@ public class AppController {
         for (Player player : this.players) {
             this.playersArea.appendText(player.getId() + " " + player.getFirst_name() + " " + player.getLast_name() + " " + player.getPosition() + " " + player.getTeam() + "\n\n");
         }
-
     }
 
+    //Opcion de exportar a CSV los equipos
     @FXML
     public void exportarCSV(ActionEvent event) {
         File outputFile = new File(System.getProperty("user.dir") + System.getProperty("file.separator")
-                + "equipos.csv" + "1");
+                + "equipos.csv");
         try {
             FileWriter writer = new FileWriter(outputFile);
             CSVWriter csvWriter = new CSVWriter(writer);
             List<String[]> file = new ArrayList<String[]>();
-//            for (String team : this.resultsTeams) {
-//                file.add(new String[] {team});
-//            }
+
             for (Object team : this.resultsTeams) {
                 file.add(new String[]{team.toString()});
             }
