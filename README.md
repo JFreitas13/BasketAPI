@@ -1,7 +1,5 @@
 # BasketAPI
-## Actividad de Aprendizaje de la asignatura de Programación Multimedia y Dispositivos Móviles - 1Q
-
-La relación Library-Book se ha considerado una 1-N para la realización de esta actividad.
+## Actividad de Aprendizaje de la asignatura de Programación de Servicios y Procesos - 2Q
 
 ### Requisitos (1 pto cada uno, obligatorios)
 - [x] La aplicación deberá utilizar técnicas de programación reactiva utilizando la librería RxJava en algún momento
