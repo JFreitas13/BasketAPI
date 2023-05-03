@@ -18,6 +18,7 @@ public class TeamsTask extends Task<Integer> {
     @Override
     protected Integer call() throws Exception {
         BasketService basketService = new BasketService();
+
         basketService.getTeams().subscribe(userTeam);
         return null;
     }

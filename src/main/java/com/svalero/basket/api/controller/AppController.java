@@ -8,6 +8,7 @@ import com.svalero.basket.api.model.Team;
 import com.svalero.basket.api.task.PlayersTask;
 import com.svalero.basket.api.task.TeamsTask;
 import io.reactivex.functions.Consumer;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -27,12 +28,13 @@ public class AppController {
     public Button btShowPlayers;
     public Button btDeletePlayer;
     public Button btExport;
-    public ProgressBar pbProgress;
+
     public TextField tfInputPlayer;
     //public TextArea teamsArea;
     public TextArea playersArea;
 
     public ListView listTeams;
+    public ProgressBar pbProgress;
 
     private TeamsTask teamsTask;
     private PlayersTask playersTask;
@@ -45,8 +47,9 @@ public class AppController {
 
     @FXML
     public void initialize() {
+        pbProgress.setProgress(0.0);
         resultsTeams = FXCollections.observableArrayList();
-        this.listTeams.setItems(this.resultsTeams);
+        this.listTeams.setItems(this.resultsTeams); //listTeams se subscribe al ObervableList
     }
 
     @FXML
@@ -55,14 +58,20 @@ public class AppController {
         this.teams = new ArrayList<String>();
 
         Consumer<DataTeam> userTeam = (dataTeam -> {
+            Platform.runLater(() -> { // actualice la barra de progreso en el hilo de JavaFX
+                pbProgress.setProgress(0.5);
+            });
+
             for (Team team : dataTeam.getData()) {
                 this.resultsTeams.add("Nombre: " + team.getName() + " Abrev: " + team.getAbbreviation() + " Conference: " + team.getConference() + " Division: " +
-                        team.getDivision() + " Nombre completo: " + team.getFull_name() + " Nombre: " + team.getName());
-                this.pbProgress.setVisible(false);
+                        team.getDivision() + " Nombre completo: " + team.getFull_name());
             }
+            Platform.runLater(() -> { // actualice la barra de progreso en el hilo de JavaFX
+                pbProgress.setProgress(1.0);
+            });
         });
 
-        teamsTask = new TeamsTask(userTeam);
+        this.teamsTask = new TeamsTask(userTeam);
         new Thread(teamsTask).start();
     }
 
@@ -72,14 +81,22 @@ public class AppController {
         playersArea.setText("");
 
         Consumer<DataPlayer> userPlayer = (dataPlayer -> {
+            Platform.runLater(() -> { // actualice la barra de progreso en el hilo de JavaFX
+                pbProgress.setProgress(0.5);
+            });
             String previousText;
             previousText = playersArea.getText() + "\n";
             for (Player player : dataPlayer.getData()) {
+                Thread.sleep(100);
                 playersArea.appendText("ID: " + player.getId() + " Nombre: " + player.getFirst_name() + " Apellido: " + player.getLast_name() + " Posicion: " + player.getPosition() + "Equipo: " + player.getTeam() + "\n\n");
                 this.players.add(player);
             }
+
+            Platform.runLater(() -> {
+                this.pbProgress.setProgress(1.0);
+            });
         });
-        playersTask = new PlayersTask(userPlayer);
+        this.playersTask = new PlayersTask(userPlayer, pbProgress);
         new Thread(playersTask).start();
     }
 
